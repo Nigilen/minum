@@ -1,0 +1,33 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --text-color-primary: #202124;
+  --text-color-secondary: #929292;
+  --bg-color-primary: #ffffff;
+  --text-size-primary: 14px;
+  --text-size-secondary: 12px;
+  --text-size-article: 16px;
+  --text-size-timer-sm: 20px;
+  --text-size-timer-lg: 30px;
+  --text-weight-primary: normal;
+  --text-weight-secondary: 600;
+  --font-family: 'Nunito', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: var(--text-weight-primary);
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text-color-primary);
+  background: var(--bg-color-primary);
+  font-family: var(--font-family);
+  font-size: var(--text-size-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
