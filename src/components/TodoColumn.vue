@@ -3,25 +3,39 @@ import TodoItem from '@components/TodoItem.vue';
 import IconAdd from '@components/icons/IconAdd.vue';
 import AppButton from '@components/ui-kit/AppButton.vue';
 
+import { useTodosStore } from '@/stores/todos';
+
+const todosStore = useTodosStore();
+
+const { openModal } = todosStore;
+
+
 const props = defineProps<{
   isLastCol?: boolean;
   data?: {
     id: number,
     task: string,
     status: string,
-    done: false
+    done: boolean
   }[];
 }>();
+
+// const mockTodo = {
+//   id: 1,
+//   task: 'Learn Vue',
+//   status: 'day',
+//   done: false
+// };
 
 </script>
 
 <template>
   <div class="column">
-    <h2 class="column__title">{{ props.data[0].status }}</h2>
+    <h2 class="column__title">{{ props.data[0]?.status }}</h2>
     <ul class="column__list">
       <TodoItem v-for="(item, index) in props.data" :key="index" :data="item" />
     </ul>
-    <AppButton v-if="props.isLastCol" class="column__add-btn" @click="() => console.log('asad')">
+    <AppButton v-if="props.isLastCol" class="column__add-btn" @click="openModal">
       <IconAdd />
     </AppButton>
   </div>

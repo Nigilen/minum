@@ -3,19 +3,32 @@
   import IconDoneBtn from '@components/icons/IconDoneBtn.vue';
   import IconCloseBtn from '@components/icons/IconCloseBtn.vue';
   import { ref } from 'vue';
+  import { useTodosStore } from '@/stores/todos';
 
+  const todosStore = useTodosStore();
+
+  const { removeTodo } = todosStore;
+  
   const props = defineProps<{
     data?: {
       id: number,
       task: string,
       status: string,
-      done: false
+      done: boolean
     };
   }>();
-
+  
+  function handleRemove() {
+    removeTodo(props.data.id);
+  };
+  
   const isDone = ref(false);
   const isImportant = ref(true);
-
+  
+  
+  // function handleDone() {
+  //   todosStore.toggleDone(props.data.id);
+  // }
   const handleDone = () => {
     isDone.value = !isDone.value;
   };
@@ -30,10 +43,10 @@
       <p class="item__text">
         <span class="item__tag">dev</span>
         <span class="item__divider"> | </span>
-        {{props.data.task}}
+        {{ props.data.task }}
       </p>
       <AppButton class="item__remove-btn">
-        <IconCloseBtn />
+        <IconCloseBtn @click="handleRemove" />
       </AppButton>
     </li>
   </template>
