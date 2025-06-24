@@ -5,6 +5,7 @@
   import { ref } from 'vue';
 
   const isDone = ref(false);
+  const isImportant = ref(true);
 
   const handleDone = () => {
     isDone.value = !isDone.value;
@@ -15,7 +16,7 @@
   <template>
     <li class="item" :class="{ 'item--done': isDone }">
       <AppButton class="item__done-btn" @click="handleDone">
-        <IconDoneBtn />
+        <IconDoneBtn :class="{'item__done-btn--important': isImportant}" />
       </AppButton>
       <p class="item__text">
         <span class="item__tag">dev</span>
@@ -61,6 +62,10 @@
 
   &__done-btn {
     transition-duration: .2s;
+
+    &--important {
+      stroke: tomato;
+    }
   }
 
   &:hover &__done-btn {
@@ -88,6 +93,7 @@
 
   &--done &__done-btn svg {
     fill: var(--text-color-secondary);
+    stroke: none;
   }
   
 }
