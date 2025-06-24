@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import TodoColumns from '@components/TodoColumns.vue';
+import data from '@/utils/data.json';
 
 </script>
 
 <template>
   <div class="wrapper container">
-    <TodoColumns />
+    <TodoColumns :data="data"/>
   </div>
 </template>
 

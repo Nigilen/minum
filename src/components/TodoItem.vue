@@ -4,6 +4,15 @@
   import IconCloseBtn from '@components/icons/IconCloseBtn.vue';
   import { ref } from 'vue';
 
+  const props = defineProps<{
+    data?: {
+      id: number,
+      task: string,
+      status: string,
+      done: false
+    };
+  }>();
+
   const isDone = ref(false);
   const isImportant = ref(true);
 
@@ -14,14 +23,15 @@
 </script>
 
   <template>
-    <li class="item" :class="{ 'item--done': isDone }">
+    <li class="item" :class="{ 'item--done': props.data.done }">
       <AppButton class="item__done-btn" @click="handleDone">
         <IconDoneBtn :class="{'item__done-btn--important': isImportant}" />
       </AppButton>
       <p class="item__text">
         <span class="item__tag">dev</span>
         <span class="item__divider"> | </span>
-        С точки зрения жизни человека, я маленький человек, починяющий свой примус. И все. Мне нравится этот примус среди всех других примусов. А на более крутые мне не интересно или дорого. А на более крутые мне не интересно или дорого.</p>
+        {{props.data.task}}
+      </p>
       <AppButton class="item__remove-btn">
         <IconCloseBtn />
       </AppButton>

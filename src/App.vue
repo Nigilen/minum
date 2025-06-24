@@ -10,10 +10,9 @@ const isMobile = useMobile();
 </script>
 
 <template>
-  <MobileView v-if="isMobile" />
   <AppHeader v-if="!isMobile" />
-  <RouterView />
-  <!-- <ToDoView v-if="!isMobile" /> -->
+  <RouterView v-if="!isMobile" />
+  <MobileView v-else />
 </template>
 
 <style scoped>

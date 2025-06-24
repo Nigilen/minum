@@ -5,17 +5,21 @@ import AppButton from '@components/ui-kit/AppButton.vue';
 
 const props = defineProps<{
   isLastCol?: boolean;
+  data?: {
+    id: number,
+    task: string,
+    status: string,
+    done: false
+  }[];
 }>();
 
 </script>
 
 <template>
   <div class="column">
-    <h2 class="column__title">День</h2>
+    <h2 class="column__title">{{ props.data[0].status }}</h2>
     <ul class="column__list">
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
+      <TodoItem v-for="(item, index) in props.data" :key="index" :data="item" />
     </ul>
     <AppButton v-if="props.isLastCol" class="column__add-btn" @click="() => console.log('asad')">
       <IconAdd />
