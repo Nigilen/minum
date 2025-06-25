@@ -1,8 +1,7 @@
 <script setup lang="ts">
-  import AppButton from '@components/ui-kit/AppButton.vue';
-  import IconDoneBtn from '@components/icons/IconDoneBtn.vue';
-  import IconCloseBtn from '@components/icons/IconCloseBtn.vue';
-  import { ref } from 'vue';
+  import AppButton from '@/components/ui-kit/AppButton.vue';
+  import IconDoneBtn from '@/components/icons/IconDoneBtn.vue';
+  import IconCloseBtn from '@/components/icons/IconCloseBtn.vue';
   import { useTodosStore } from '@/stores/todos';
 
   const todosStore = useTodosStore();
@@ -14,6 +13,8 @@
       id: number,
       task: string,
       status: string,
+      tag: string,
+      important: boolean,
       done: boolean
     };
   }>();
@@ -22,15 +23,8 @@
     removeTodo(props.data.id);
   };
   
-  const isDone = ref(false);
-  const isImportant = ref(true);
-  
-  
-  // function handleDone() {
-  //   todosStore.toggleDone(props.data.id);
-  // }
-  const handleDone = () => {
-    isDone.value = !isDone.value;
+  function handleDone() {
+    todosStore.doneTodo(props.data.id);
   };
 
 </script>
@@ -38,11 +32,11 @@
   <template>
     <li class="item" :class="{ 'item--done': props.data.done }">
       <AppButton class="item__done-btn" @click="handleDone">
-        <IconDoneBtn :class="{'item__done-btn--important': isImportant}" />
+        <IconDoneBtn :class="{'item__done-btn--important': props.data.important}" />
       </AppButton>
-      <p class="item__text">
-        <span class="item__tag">dev</span>
-        <span class="item__divider"> | </span>
+      <p class="item__text" @click="todosStore.editTodo(props.data)">
+        <span class="item__tag">{{ props.data.tag }}</span>
+        <span v-if="props.data.tag" class="item__divider"> | </span>
         {{ props.data.task }}
       </p>
       <AppButton class="item__remove-btn">

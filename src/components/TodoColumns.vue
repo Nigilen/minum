@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TodoColumn from '@components/TodoColumn.vue';
-import { computed, defineProps } from 'vue';
+import TodoColumn from '@/components/TodoColumn.vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   data: {

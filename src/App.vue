@@ -3,7 +3,7 @@
 import AppHeader from '@components/layout/AppHeader.vue';
 
 import MobileView from '@views/MobileView.vue';
-import useMobile from '@/hoocks/useMobile.ts';
+import useMobile from '@/hooks/useMobile';
 import { RouterView } from 'vue-router';
 
 const isMobile = useMobile();

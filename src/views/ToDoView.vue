@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TodoColumns from '@components/TodoColumns.vue';
-import AppModal from '@components/ui-kit/AppModal.vue';
+import TodoColumns from '@/components/TodoColumns.vue';
+import AppModal from '@/components/ui-kit/AppModal.vue';
 import { storeToRefs } from 'pinia';
 
 import { useTodosStore } from '@/stores/todos';

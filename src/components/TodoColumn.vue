@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TodoItem from '@components/TodoItem.vue';
-import IconAdd from '@components/icons/IconAdd.vue';
-import AppButton from '@components/ui-kit/AppButton.vue';
+import TodoItem from '@/components/TodoItem.vue';
+import IconAdd from '@/components/icons/IconAdd.vue';
+import AppButton from '@/components/ui-kit/AppButton.vue';
 
 import { useTodosStore } from '@/stores/todos';
 
