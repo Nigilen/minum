@@ -12,30 +12,26 @@ const { openModal } = todosStore;
 
 const props = defineProps<{
   isLastCol?: boolean;
-  data?: {
+  data: {
     id: number,
     task: string,
     status: string,
-    done: boolean
+    done: boolean,
+    important: boolean,
+    tag: string
   }[];
 }>();
-
-// const mockTodo = {
-//   id: 1,
-//   task: 'Learn Vue',
-//   status: 'day',
-//   done: false
-// };
 
 </script>
 
 <template>
   <div class="column">
-    <h2 class="column__title">{{ props.data[0]?.status }}</h2>
+    <!-- FIXME: странное какое-то решение по назначению имени заголовка  -->
+    <h2 class="column__title">{{ props.data[0]?.status }}</h2> 
     <ul class="column__list">
       <TodoItem v-for="(item, index) in props.data" :key="index" :data="item" />
     </ul>
-    <AppButton v-if="props.isLastCol" class="column__add-btn" @click="openModal">
+    <AppButton v-if="props.isLastCol" class="column__add-btn" @click="openModal(false)">
       <IconAdd />
     </AppButton>
   </div>

@@ -6,10 +6,8 @@
 
   const todosStore = useTodosStore();
 
-  const { removeTodo } = todosStore;
-  
   const props = defineProps<{
-    data?: {
+    data: {
       id: number,
       task: string,
       status: string,
@@ -20,7 +18,7 @@
   }>();
   
   function handleRemove() {
-    removeTodo(props.data.id);
+    todosStore.removeTodo(props.data.id);
   };
   
   function handleDone() {
@@ -31,17 +29,21 @@
 
   <template>
     <li class="item" :class="{ 'item--done': props.data.done }">
+
       <AppButton class="item__done-btn" @click="handleDone">
-        <IconDoneBtn :class="{'item__done-btn--important': props.data.important}" />
+        <IconDoneBtn :class="{ 'item__done-btn--important': props.data.important }" />
       </AppButton>
+
       <p class="item__text" @click="todosStore.editTodo(props.data)">
         <span class="item__tag">{{ props.data.tag }}</span>
         <span v-if="props.data.tag" class="item__divider"> | </span>
         {{ props.data.task }}
       </p>
+
       <AppButton class="item__remove-btn">
         <IconCloseBtn @click="handleRemove" />
       </AppButton>
+      
     </li>
   </template>
 

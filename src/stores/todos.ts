@@ -11,41 +11,8 @@ interface ITodo {
 }
 
 export const useTodosStore = defineStore('todos', () => {
+  const editModal = ref(false);
 
-  const todo = ref<ITodo>({
-    id: 0,
-    task: '',
-    status: 'incoming',
-    tag: '',
-    important: false,
-    done: false
-  });
-
-  const isModalOpen = ref<boolean>(false);
-  const openModal = () => {
-    isModalOpen.value = true;
-  };
-
-  const closeModal = () => {
-    isModalOpen.value = false;
-    todo.value = {  // Возвращаем начальное состояние
-      id: 0,
-      task: '',
-      status: 'incoming',
-      tag: '',
-      important: false,
-      done: false
-    };
-  };
-
-  const editTodo = (task: ITodo) => {
-    todo.value = {
-      ...task,  // Копируем все поля из task
-    };
-    openModal();
-  };
-
-  // NOTE: внимание на обработку ошибок для localStorage
   const loadTodos = () => {
     try {
       return JSON.parse(localStorage.getItem('todos') || '[]');
@@ -54,10 +21,41 @@ export const useTodosStore = defineStore('todos', () => {
     }
   };
 
-  const todos = ref<ITodo[]>(loadTodos()); // NOTE: заменил reactive на ref так как он лучше работает с переприсваиванием
+  const todos = ref<ITodo[]>(loadTodos()); 
+
+  const todo = ref<ITodo>({
+    id: Date.now(),
+    task: '',
+    status: 'incoming',
+    tag: '',
+    important: false,
+    done: false
+  });
+
+  const isModalOpen = ref<boolean>(false);
+
+  const openModal = (isEdit: boolean) => {
+    isModalOpen.value = true;
+    editModal.value = isEdit;
+  };
+
+  const closeModal = () => {
+    isModalOpen.value = false;
+    todo.value = {
+      id: Date.now(),
+      task: '',
+      status: 'incoming',
+      tag: '',
+      important: false,
+      done: false
+    };
+  };
+
+  // NOTE: заменил reactive на ref так как он лучше работает с переприсваиванием
   // ref позволяет перезаписывать значение (например, через filter).
   // reactive требует мутаций, что не всегда удобно.
   // В Pinia/Vue 3 ref — стандартный выбор для примитивов и массивов.
+  
   watch(
     todos, 
     (newTodos) => { 
@@ -66,32 +64,35 @@ export const useTodosStore = defineStore('todos', () => {
     { deep: true }
   );
 
-  const addTodo = (
-    task: string, 
-    status: string, 
-    important: boolean, 
-    done: boolean, 
-    tag?: string
-  ) => {
-    todos.value.push({
-      id: Date.now(),
-      task,
-      status,
-      tag: tag || '',
-      important,
-      done
-    });
+  const addTodo = (task: ITodo) => {
+    todos.value.push(task);
+    closeModal();
   };
 
+  const editTodo = (task: ITodo) => {
+    todo.value = {
+      ...task,
+    };
+    openModal(true);
+  };
 
-
-  const saveTodo = (todo: ITodo) => {
-    const index = todos.value.findIndex(t => t.id === todo.id);
+  const saveTodo = (task: ITodo) => {
+    const index = todos.value.findIndex(t => t.id === todo.value.id);
     if (index !== -1) {
-      todos.value[index] = todo;
+      todos.value[index] = task;
     } else {
-      todos.value.push(todo);
+      todos.value.push(task);
     }
+    closeModal();
+  };
+
+  const doneTodo = (id: number) => {
+    const index = todos.value.findIndex(todo => todo.id === id);
+    if (index !== -1) {
+      todos.value[index].done = !todos.value[index].done;
+      localStorage.setItem('todos', JSON.stringify(todos.value));
+    };
+    if (isModalOpen.value) closeModal();
   };
 
   // const removeTodo = (id: number) => {
@@ -109,15 +110,8 @@ export const useTodosStore = defineStore('todos', () => {
     if (index !== -1) {
       todos.value.splice(index, 1); // Удаляем элемент без переприсваивания
       localStorage.setItem('todos', JSON.stringify(todos.value));
-    }
-  };
-
-  const doneTodo = (id: number) => {
-    const index = todos.value.findIndex(todo => todo.id === id);
-    if (index !== -1) {
-      todos.value[index].done = !todos.value[index].done;
-      localStorage.setItem('todos', JSON.stringify(todos.value));
-    }
+    };
+    if (isModalOpen.value) closeModal();
   };
   
   return { 
@@ -130,6 +124,7 @@ export const useTodosStore = defineStore('todos', () => {
     saveTodo,
     doneTodo,
     todo,
-    editTodo
+    editTodo,
+    editModal
   }
 })
