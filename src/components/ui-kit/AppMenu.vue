@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import IconDone from "@components/icons/IconDone.vue";
-  import IconNotes from "@components/icons/IconNotes.vue";
-  import IconTimer from "@components/icons/IconTimer.vue";
-  import IconSound from "@components/icons/IconSound.vue";
+  import IconDone from "@/components/icons/IconDone.vue";
+  import IconNotes from "@/components/icons/IconNotes.vue";
+  import IconTimer from "@/components/icons/IconTimer.vue";
+  import IconSound from "@/components/icons/IconSound.vue";
 </script>
 
 <template>
@@ -76,7 +76,5 @@
         fill: var(--text-color-primary);
       }
     }
-    
-
   }
 </style>

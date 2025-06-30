@@ -8,7 +8,7 @@ const { todo, editModal } = todosStore;
 </script>
 
 <template>
-  <form class="form" @submit.prevent >
+  <form class="form" @submit.prevent>
     <textarea class="form__input-field" name="input-field" id="input-field" placeholder="some new task ..." v-model="todo.task"></textarea>
 
     <fieldset class="form__params params">

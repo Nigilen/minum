@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AppLogo from '@components/ui-kit/AppLogo.vue';
-import AppMenu from '@components/ui-kit/AppMenu.vue';
+import AppLogo from '@/components/ui-kit/AppLogo.vue';
+import AppMenu from '@/components/ui-kit/AppMenu.vue';
 
 </script>
 

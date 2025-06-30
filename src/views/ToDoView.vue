@@ -1,31 +1,17 @@
 <script setup lang="ts">
-import TodoColumns from '@/components/TodoColumns.vue';
+import TodoColumns from '@/components/todo/TodoColumns.vue';
 import AppModal from '@/components/ui-kit/AppModal.vue';
 import { storeToRefs } from 'pinia';
+import { useModalStore } from '@/stores/modal';
+const modalStore = useModalStore();
 
-import { useTodosStore } from '@/stores/todos';
-
-const todosStore = useTodosStore();
-
-const { todos } = todosStore;
-const { isModalOpen } = storeToRefs(todosStore); 
-// NOTE: Без storeToRefs при деструктуризации const { isModalOpen } = todosStore теряется реактивность. Pinia автоматически оборачивает состояния в reactive, но при деструктуризации свойства становятся обычными значениями. 
-// NOTE: storeToRefs: Преобразует каждое свойство хранилища в ref, сохраняя реактивность. Позволяет безопасно деструктурировать состояние без потери реактивности.
-// NOTE: Когда использовать storeToRefs: Для состояний (ref/reactive), которые нужно деструктурировать.
-// NOTE: Альтернатива без storeToRefs: 
-// const todosStore = useTodosStore();
-// <div v-if="todosStore.isModalOpen">...</div>
-// Правила Pinia
-// Плохо (теряет реактивность):
-// const { isModalOpen } = useTodosStore();
-// Хорошо:
-//const { isModalOpen } = storeToRefs(useTodosStore());
+const { isModalOpen } = storeToRefs(modalStore);  // NOTE: 10. при деструктуризации, свойства становятся обычными значениями. storeToRefs преобразует каждое свойство хранилища в ref, сохраняя реактивность, позволяя безопасно деструктурировать состояние без потери реактивности. Альтернатива без storeToRefs — вызов свойств без десктруктуризации (пример: todosStore.isModalOpen)
 
 </script>
 
 <template>
   <div class="wrapper container">
-    <TodoColumns :data="todos"/>
+    <TodoColumns />
   </div>
   <AppModal v-model="isModalOpen" />
 </template>
