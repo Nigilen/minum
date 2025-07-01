@@ -7,8 +7,6 @@ import type { IColumn } from '@/types/types';
 
 const modalStore = useModalStore();
 
-const { openModal } = modalStore;
-
 interface IColumnProps {
   data: IColumn[];
 }
@@ -33,7 +31,7 @@ const props = withDefaults(defineProps<IColumnProps>(), {
     <ul class="column__list">
       <TodoItem v-for="(item, index) in props.data" :key="index" :data="item" />
     </ul>
-    <AppButton class="column__add-btn" @click="openModal(false)">
+    <AppButton class="column__add-btn" @click="modalStore.openModal(false)">
       <IconAdd />
     </AppButton>
   </div>

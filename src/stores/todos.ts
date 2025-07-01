@@ -3,19 +3,16 @@ import { ref, watch } from 'vue';
 import { useModalStore } from './modal';
 import type { IColumn } from '@/types/types';
 
+const loadTodos = () => {
+  try {
+    return JSON.parse(localStorage.getItem('todos') || '[]');
+  } catch {
+    return [];
+  }
+};
+
 export const useTodosStore = defineStore('todos', () => {
-  const modal = useModalStore();
-
-  const loadTodos = () => {
-    try {
-      return JSON.parse(localStorage.getItem('todos') || '[]');
-    } catch {
-      return [];
-    }
-  };
-
   const todos = ref<IColumn[]>(loadTodos()); 
-
   const todo = ref<IColumn>({
     id: Date.now(),
     task: '',
@@ -25,8 +22,6 @@ export const useTodosStore = defineStore('todos', () => {
     done: false
   });
 
-  const filteredTodos = (status: string) => todos.value.filter(todo => todo.status === status);
-  
   watch(
     todos, 
     (newTodos) => { 
@@ -34,6 +29,10 @@ export const useTodosStore = defineStore('todos', () => {
     }, 
     { deep: true }
   );
+
+  const modal = useModalStore();
+  
+  const filteredTodos = (status: string) => todos.value.filter(todo => todo.status === status);
 
   const addTodo = (task: IColumn) => {
     todos.value.push(task);

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import ModalForm from '@/components/ui-kit/ModalForm.vue';
-
 import { useTodosStore } from '@/stores/todos';
+import { useModalStore } from '@/stores/modal';
 
-const todosStore = useTodosStore();
+const todoStore = useTodosStore();
+const modalStore = useModalStore();
 
 const modelValue = defineModel<boolean>();
-
 
 </script>
 
@@ -16,10 +16,14 @@ const modelValue = defineModel<boolean>();
       <div 
         v-if="modelValue" 
         class="modal-overlay"
-        @click.self="todosStore.closeModal"
+        @click.self="modalStore.closeModal"
       >
         <div class="modal-content">
-          <ModalForm />
+          <ModalForm 
+            @save="todoStore.saveTodo"
+            @done="todoStore.doneTodo"
+            @remove="todoStore.removeTodo"
+          />
         </div>
       </div>
     </Transition>

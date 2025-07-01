@@ -1,16 +1,21 @@
 <script setup lang="ts">
 
+defineProps<{
+  label?: string;
+}>();
 
 </script>
 
+
+
 <template>
   <button class="button">
-    <slot/>
+    {{ label }}
+    <slot />
   </button>
 </template>
 
 <style scoped lang="scss">
-
   .button {
     background-color: var(--bg-color-primary);
     display: flex;
@@ -21,5 +26,4 @@
     align-items: center;
     justify-content: center;
   }
-
 </style>

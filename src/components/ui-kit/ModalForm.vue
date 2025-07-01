@@ -4,54 +4,76 @@ import { useTodosStore } from '@/stores/todos';
 import { useModalStore } from '@/stores/modal';
 const todosStore = useTodosStore();
 const modalStore = useModalStore();
+
+defineProps<{
+  task?: string;
+  status?: string;
+  important?: boolean;
+  tag?: string;
+}>();
+
+
+
 const { todo } = todosStore;
-const { editModal } = modalStore;
 
 </script>
 
 <template>
   <form class="form" @submit.prevent>
-    <textarea class="form__input-field" name="input-field" id="input-field" placeholder="some new task ..." v-model="todo.task"></textarea>
+    <textarea 
+      class="form__input-field" 
+      name="input-field" 
+      id="input-field" 
+      placeholder="some new task ..." 
+      v-model="todo.task">
+    </textarea>
 
     <fieldset class="form__params params">
-      <select class="params__item" name="param-status" id="param-status" v-model="todo.status">
+      <select 
+        class="params__item" 
+        name="param-status" 
+        id="param-status" 
+        v-model="todo.status"
+      >
         <option value="incoming" selected>Входящие</option>
         <option value="day">День</option>
         <option value="week">Неделя</option>
       </select>
       <label class="params__item" for="param-important">
-        <input class="params__item-input" type="checkbox" name="param-important" id="param-important" v-model="todo.important"/>
+        <input 
+          class="params__item-input" 
+          type="checkbox" 
+          name="param-important" 
+          id="param-important" 
+          v-model="todo.important"
+        />
         Важная
       </label>
-      <select class="params__item" name="param-tag" id="param-tag" v-model="todo.tag">
-        <option value="пусто">пусто</option>
+      <select 
+        class="params__item" 
+        name="param-tag" 
+        id="param-tag" 
+        v-model="todo.tag"
+      >
+        <option value="">без тега</option>
         <option value="work">work</option>
         <option value="self">self</option>
       </select>
     </fieldset>
 
     <div class="form__controls controls">
-
-      <!-- добавление задачи -> закрытие окна -> сброс формы -->
-      <AppButton class="controls__item" @click="todosStore.saveTodo(todo)">
-        {{ editModal ? 'Сохранить' : 'Добавить' }}
-      </AppButton> 
-
-      <!-- завершение задачи -> закрытие окна -> сброс формы -->
-      <AppButton class="controls__item" @click="todosStore.doneTodo(todo.id)">
-        {{ todo.done ? 'В работу' : 'Завершить' }}
-      </AppButton>
-
-      <!-- удаление задачи -> закрытие окна -> сброс формы -->
-      <AppButton class="controls__item" @click="todosStore.removeTodo(todo.id)">
-        Удалить
-      </AppButton>
-
-      <!-- закрытие окна -> сброс формы -->
-      <AppButton class="controls__item" @click="modalStore.closeModal">
-        Отмена
-      </AppButton>
-
+      <AppButton 
+        class="controls__item" 
+        @click="$emit('save', todo)" 
+        :label="modalStore.editModal ? 'Сохранить' : 'Добавить'" 
+      />
+      <AppButton 
+        class="controls__item" 
+        @click="$emit('done', todo.id)" 
+        :label="todo.done ? 'В работу' : 'Завершить'"
+      />
+      <AppButton class="controls__item" @click="$emit('remove', todo.id)" label="Удалить" />
+      <AppButton class="controls__item" @click="modalStore.closeModal" label="Отмена" />
     </div>
   </form>
 </template>
