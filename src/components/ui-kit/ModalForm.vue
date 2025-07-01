@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui-kit/AppButton.vue';
 import { useTodosStore } from '@/stores/todos';
-
+import { useModalStore } from '@/stores/modal';
 const todosStore = useTodosStore();
-const { todo, editModal } = todosStore;
+const modalStore = useModalStore();
+const { todo } = todosStore;
+const { editModal } = modalStore;
 
 </script>
 
@@ -46,7 +48,7 @@ const { todo, editModal } = todosStore;
       </AppButton>
 
       <!-- закрытие окна -> сброс формы -->
-      <AppButton class="controls__item" @click="todosStore.closeModal">
+      <AppButton class="controls__item" @click="modalStore.closeModal">
         Отмена
       </AppButton>
 
