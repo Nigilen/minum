@@ -79,13 +79,15 @@ defineEmits<{
       <AppButton 
         class="controls__item" 
         @click="$emit('save', todo)" 
+        :ariaLabel="modalStore.editModal ? 'Сохранить задачу' : 'Добавить задачу'"
       >{{ modalStore.editModal ? 'Сохранить' : 'Добавить' }}</AppButton>
       <AppButton 
         class="controls__item" 
         @click="$emit('done', id)" 
+        :ariaLabel="done ? 'Вернуть в работу' : 'Завершить задачу'"
       >{{ done ? 'В работу' : 'Завершить' }}</AppButton>
-      <AppButton class="controls__item" @click="$emit('remove', id)">Удалить</AppButton>
-      <AppButton class="controls__item" @click="modalStore.closeModal">Отмена</AppButton>
+      <AppButton class="controls__item" @click="$emit('remove', id)" ariaLabel="Удалить задачу">Удалить</AppButton>
+      <AppButton class="controls__item" @click="modalStore.closeModal" ariaLabel="Закрыть окно">Отмена</AppButton>
     </div>
   </form>
 </template>

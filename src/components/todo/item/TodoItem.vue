@@ -27,17 +27,17 @@ const props = withDefaults(defineProps<IColumnProps>(), {
 <template>
   <li class="item" :class="{ 'item--done': props.data.done }">
 
-    <AppButton class="item__done-btn" @click="todosStore.doneTodo(props.data.id)">
+    <AppButton class="item__done-btn" @click="todosStore.doneTodo(props.data.id)" ariaLabel="Завершить задачу">
       <IconDoneBtn :class="{ 'item__done-btn--important': props.data.important }" />
     </AppButton>
 
-    <p class="item__text" @click="todosStore.editTodo(props.data)">
+    <p class="item__text" @click="todosStore.editTodo(props.data)" aria-label="Редактировать задачу">
       <span class="item__tag">{{ props.data.tag }}</span>
       <span v-if="props.data.tag" class="item__divider"> | </span>
       {{ props.data.task }}
     </p>
 
-    <AppButton class="item__remove-btn">
+    <AppButton class="item__remove-btn" ariaLabel="Удалить задачу">
       <IconCloseBtn @click="todosStore.removeTodo(props.data.id)" />
     </AppButton>
     

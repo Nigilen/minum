@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<IColumnProps>(), {
     <ul class="column__list">
       <TodoItem v-for="(item, index) in props.data" :key="index" :data="item" />
     </ul>
-    <AppButton class="column__add-btn" @click="modalStore.openModal(false)">
+    <AppButton class="column__add-btn" @click="modalStore.openModal(false)" ariaLabel="Добавить задачу">
       <IconAdd />
     </AppButton>
   </div>
