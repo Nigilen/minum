@@ -79,15 +79,13 @@ defineEmits<{
       <AppButton 
         class="controls__item" 
         @click="$emit('save', todo)" 
-        :label="modalStore.editModal ? 'Сохранить' : 'Добавить'" 
-      />
+      >{{ modalStore.editModal ? 'Сохранить' : 'Добавить' }}</AppButton>
       <AppButton 
         class="controls__item" 
         @click="$emit('done', id)" 
-        :label="done ? 'В работу' : 'Завершить'"
-      />
-      <AppButton class="controls__item" @click="$emit('remove', id)" label="Удалить" />
-      <AppButton class="controls__item" @click="modalStore.closeModal" label="Отмена" />
+      >{{ done ? 'В работу' : 'Завершить' }}</AppButton>
+      <AppButton class="controls__item" @click="$emit('remove', id)">Удалить</AppButton>
+      <AppButton class="controls__item" @click="modalStore.closeModal">Отмена</AppButton>
     </div>
   </form>
 </template>

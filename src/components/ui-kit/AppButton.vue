@@ -1,16 +1,7 @@
-<script setup lang="ts">
-
-defineProps<{
-  label?: string;
-}>();
-
-</script>
-
-
+<script setup lang="ts"></script>
 
 <template>
   <button class="button">
-    {{ label }}
     <slot />
   </button>
 </template>
