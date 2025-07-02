@@ -28,9 +28,9 @@ const props = withDefaults(defineProps<IColumnProps>(), {
   <div class="column">
     <!-- FIXME: странное какое-то решение по назначению имени заголовка  -->
     <h2 class="column__title">{{ props.data[0]?.status }}</h2> 
-    <ul class="column__list">
-      <TodoItem v-for="(item, index) in props.data" :key="index" :data="item" />
-    </ul>
+    <TransitionGroup class="column__list" name="list" tag="ul" appear>
+      <TodoItem v-for="item in props.data" :key="item.id" :data="item" class="item" />
+    </TransitionGroup>
     <AppButton class="column__add-btn" @click="modalStore.openModal(false)" ariaLabel="Добавить задачу">
       <IconAdd />
     </AppButton>

@@ -36,6 +36,7 @@ export const useTodosStore = defineStore('todos', () => {
 
   const addTodo = (task: IColumn) => {
     todos.value.push(task);
+    sortedTodos();
     modal.closeModal();
   };
 
@@ -50,10 +51,16 @@ export const useTodosStore = defineStore('todos', () => {
     const index = todos.value.findIndex(t => t.id === todo.value.id);
     if (index !== -1) {
       todos.value[index] = task;
+      sortedTodos();
     } else {
       todos.value.push(task);
+      sortedTodos();
     }
     modal.closeModal();
+  };
+
+  const sortedTodos = () => {
+    return todos.value.sort((a: IColumn, b: IColumn) => Number(a.done) - Number(b.done));
   };
 
   const doneTodo = (id: number) => {
@@ -61,6 +68,7 @@ export const useTodosStore = defineStore('todos', () => {
     if (index !== -1) {
       todos.value[index].done = !todos.value[index].done;
       localStorage.setItem('todos', JSON.stringify(todos.value));
+      sortedTodos();
     };
     if (modal.isModalOpen) modal.closeModal();
   };
@@ -70,6 +78,7 @@ export const useTodosStore = defineStore('todos', () => {
     if (index !== -1) {
       todos.value.splice(index, 1); // Удаляем элемент без переприсваивания
       localStorage.setItem('todos', JSON.stringify(todos.value));
+      sortedTodos();
     };
     if (modal.isModalOpen) modal.closeModal();
   };

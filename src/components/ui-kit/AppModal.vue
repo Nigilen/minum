@@ -1,14 +1,7 @@
 <script setup lang="ts">
-import ModalForm from '@/components/ui-kit/ModalForm.vue';
-import { useTodosStore } from '@/stores/todos';
 import { useModalStore } from '@/stores/modal';
-import { storeToRefs } from 'pinia';
 
-const todoStore = useTodosStore();
 const modalStore = useModalStore();
-
-const { todo } = storeToRefs(todoStore);
-
 
 </script>
 
@@ -21,20 +14,7 @@ const { todo } = storeToRefs(todoStore);
         @click.self="modalStore.closeModal"
       >
         <div class="modal-content">
-          <ModalForm 
-            @save="todoStore.saveTodo"
-            @done="todoStore.doneTodo"
-            @remove="todoStore.removeTodo"
-
-            :id="todo.id"
-            :done="todo.done"
-            :todo="todo"
-            
-            v-model:task="todo.task"
-            v-model:status="todo.status"
-            v-model:important="todo.important"
-            v-model:tag="todo.tag"
-          />
+          <slot />
         </div>
       </div>
     </Transition>
@@ -70,4 +50,5 @@ const { todo } = storeToRefs(todoStore);
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
+
 </style>
