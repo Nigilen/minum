@@ -12,8 +12,6 @@ defineProps<{
   tag?: string;
 }>();
 
-
-
 const { todo } = todosStore;
 
 </script>
@@ -25,7 +23,8 @@ const { todo } = todosStore;
       name="input-field" 
       id="input-field" 
       placeholder="some new task ..." 
-      v-model="todo.task">
+      v-model="todo.task"
+    >
     </textarea>
 
     <fieldset class="form__params params">

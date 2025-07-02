@@ -6,7 +6,7 @@ import { useModalStore } from '@/stores/modal';
 const todoStore = useTodosStore();
 const modalStore = useModalStore();
 
-const modelValue = defineModel<boolean>();
+
 
 </script>
 
@@ -14,7 +14,7 @@ const modelValue = defineModel<boolean>();
   <Teleport to="body">
     <Transition name="fade">
       <div 
-        v-if="modelValue" 
+        v-if="modalStore.isModalOpen" 
         class="modal-overlay"
         @click.self="modalStore.closeModal"
       >
