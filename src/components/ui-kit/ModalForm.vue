@@ -1,18 +1,29 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui-kit/AppButton.vue';
-import { useTodosStore } from '@/stores/todos';
 import { useModalStore } from '@/stores/modal';
-const todosStore = useTodosStore();
+import type { IColumn } from '@/types/types';
 const modalStore = useModalStore();
 
 defineProps<{
+  id: number;
+  done: boolean;
   task?: string;
   status?: string;
   important?: boolean;
   tag?: string;
+  todo: IColumn;
 }>();
 
-const { todo } = todosStore;
+defineEmits<{
+  (e: 'save', value: IColumn): void;
+  (e: 'done', value: number): void;
+  (e: 'remove', value: number): void;
+
+  (e: 'update:task', value: string): void;
+  (e: 'update:status', value: string): void;
+  (e: 'update:important', value: boolean): void;
+  (e: 'update:tag', value: string): void;
+}>();
 
 </script>
 
@@ -23,7 +34,8 @@ const { todo } = todosStore;
       name="input-field" 
       id="input-field" 
       placeholder="some new task ..." 
-      v-model="todo.task"
+      :value="task"
+      @input="$emit('update:task', ($event.target as HTMLTextAreaElement).value)"
     >
     </textarea>
 
@@ -32,7 +44,8 @@ const { todo } = todosStore;
         class="params__item" 
         name="param-status" 
         id="param-status" 
-        v-model="todo.status"
+        :value="status"
+        @change="$emit('update:status', ($event.target as HTMLSelectElement).value)"
       >
         <option value="incoming" selected>Входящие</option>
         <option value="day">День</option>
@@ -44,7 +57,8 @@ const { todo } = todosStore;
           type="checkbox" 
           name="param-important" 
           id="param-important" 
-          v-model="todo.important"
+          :checked="important"
+          @change="$emit('update:important', ($event.target as HTMLInputElement).checked)"
         />
         Важная
       </label>
@@ -52,7 +66,8 @@ const { todo } = todosStore;
         class="params__item" 
         name="param-tag" 
         id="param-tag" 
-        v-model="todo.tag"
+        :value="tag"
+        @change="$emit('update:tag', ($event.target as HTMLSelectElement).value)"
       >
         <option value="">без тега</option>
         <option value="work">work</option>
@@ -68,10 +83,10 @@ const { todo } = todosStore;
       />
       <AppButton 
         class="controls__item" 
-        @click="$emit('done', todo.id)" 
-        :label="todo.done ? 'В работу' : 'Завершить'"
+        @click="$emit('done', id)" 
+        :label="done ? 'В работу' : 'Завершить'"
       />
-      <AppButton class="controls__item" @click="$emit('remove', todo.id)" label="Удалить" />
+      <AppButton class="controls__item" @click="$emit('remove', id)" label="Удалить" />
       <AppButton class="controls__item" @click="modalStore.closeModal" label="Отмена" />
     </div>
   </form>

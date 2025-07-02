@@ -2,10 +2,12 @@
 import ModalForm from '@/components/ui-kit/ModalForm.vue';
 import { useTodosStore } from '@/stores/todos';
 import { useModalStore } from '@/stores/modal';
+import { storeToRefs } from 'pinia';
 
 const todoStore = useTodosStore();
 const modalStore = useModalStore();
 
+const { todo } = storeToRefs(todoStore);
 
 
 </script>
@@ -23,6 +25,15 @@ const modalStore = useModalStore();
             @save="todoStore.saveTodo"
             @done="todoStore.doneTodo"
             @remove="todoStore.removeTodo"
+
+            :id="todo.id"
+            :done="todo.done"
+            :todo="todo"
+            
+            v-model:task="todo.task"
+            v-model:status="todo.status"
+            v-model:important="todo.important"
+            v-model:tag="todo.tag"
           />
         </div>
       </div>
