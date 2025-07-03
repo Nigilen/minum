@@ -8,10 +8,12 @@ import type { IColumn } from '@/types/types';
 const modalStore = useModalStore();
 
 interface IColumnProps {
+  title: string;
   data: IColumn[];
 }
 
 const props = withDefaults(defineProps<IColumnProps>(), {
+  title: '',
   data: () => [{
     id: Date.now(),
     task: '',
@@ -27,7 +29,7 @@ const props = withDefaults(defineProps<IColumnProps>(), {
 <template>
   <div class="column">
     <!-- FIXME: странное какое-то решение по назначению имени заголовка  -->
-    <h2 class="column__title">{{ props.data[0]?.status }}</h2> 
+    <h2 class="column__title">{{ title }}</h2> 
     <TransitionGroup class="column__list" name="list" tag="ul" appear>
       <TodoItem v-for="item in props.data" :key="item.id" :data="item" class="item" />
     </TransitionGroup>
@@ -37,4 +39,4 @@ const props = withDefaults(defineProps<IColumnProps>(), {
   </div>
 </template>
 
-<style scoped lang="scss" src="./TodoColumns.scss"></style>
+<style scoped lang="scss" src="./TodoColumn.scss"></style>
