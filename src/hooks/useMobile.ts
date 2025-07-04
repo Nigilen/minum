@@ -7,25 +7,31 @@ const useMobile = (
 
   const isMobile = ref(window.innerWidth < breakpoint); // моб все что ниже 768px
 
-  let debounceTimer: number;
+  let debounceTimer: number; // в него будем записывать таймер
 
   const handleResize = () => { // проверяем моб или нет
     isMobile.value = window.innerWidth < breakpoint;
-  }
+  };
 
+  // выполнение "ща..."
   const debounceResize = () => { // дебаунс
-    clearTimeout(debounceTimer); // сначала очищаем предыдущий
-    debounceTimer = setTimeout(handleResize, debounceDelay); // затем реагируем
-  }
+    clearTimeout(debounceTimer); // сначала очищаем предыдущий таймер
+    debounceTimer = setTimeout(handleResize, debounceDelay); // затем запускаем новый таймер
+  };
 
-  onMounted(() => { // при монтированиии, вешаем слушатель ресайза окна
+  // при монтированиии, вешаем слушатель ресайза
+  onMounted(() => {
     window.addEventListener('resize', debounceResize) ;
   });
 
-  onUnmounted(() => { // не забываем удалить слушатель при размонтировании
+  // при размонтировании, удаляем слушатель
+  onUnmounted(() => {
     window.removeEventListener('resize', debounceResize);
     clearTimeout(debounceTimer);
   });
+
+  // Итого: при монтированиии, вешаем слушатель ресайза, при наступлении события запускающий «ленивую» функцию, помечающая ресайз как моб или нет. 
+  // В дополнение: не забываем очищать таймер и удалять слушатель при размонтировании., удаляем слушатель ресайза и очищаем таймер
 
   return isMobile;
 }
