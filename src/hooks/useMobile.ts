@@ -1,17 +1,32 @@
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, type Ref } from 'vue';
 
-function useMobile (breakpoint = 768) {
-  const isMobile = ref(window.innerWidth < breakpoint);
-  onMounted(() => {
-    window.addEventListener('resize', () => {
-      isMobile.value = window.innerWidth < breakpoint;
-    });
+const useMobile = (
+  breakpoint: number = 768, 
+  debounceDelay: number = 100
+): Ref<boolean> => {
+
+  const isMobile = ref(window.innerWidth < breakpoint); // моб все что ниже 768px
+
+  let debounceTimer: number;
+
+  const handleResize = () => { // проверяем моб или нет
+    isMobile.value = window.innerWidth < breakpoint;
+  }
+
+  const debounceResize = () => { // дебаунс
+    clearTimeout(debounceTimer); // сначала очищаем предыдущий
+    debounceTimer = setTimeout(handleResize, debounceDelay); // затем реагируем
+  }
+
+  onMounted(() => { // при монтированиии, вешаем слушатель ресайза окна
+    window.addEventListener('resize', debounceResize) ;
   });
-  onUnmounted(() => {
-    window.removeEventListener('resize', () => {
-      isMobile.value = window.innerWidth < breakpoint;
-    });
+
+  onUnmounted(() => { // не забываем удалить слушатель при размонтировании
+    window.removeEventListener('resize', debounceResize);
+    clearTimeout(debounceTimer);
   });
+
   return isMobile;
 }
 
