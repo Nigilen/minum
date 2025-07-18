@@ -1,34 +1,43 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { useTodosStore } from './todos';
+import { onUnmounted, ref } from 'vue';
+import { computed } from 'vue';
+
+type ModalMode = 'add' | 'edit' | null;
 
 export const useModalStore = defineStore('modal', () => {
-  const todos = useTodosStore();
+  const modalMode = ref<ModalMode>(null);
 
-  const editModal = ref<boolean>(false);
-  const isModalOpen = ref<boolean>(false);
+  const isOpen = computed(() => modalMode.value !== null);
+  const isAddMode = computed(() => modalMode.value === 'add');
+  const isEditMode = computed(() => modalMode.value === 'edit');
 
-  const openModal = (isEdit: boolean) => {
-    isModalOpen.value = true;
-    editModal.value = isEdit;
+  const closeModalEscape = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') closeModal();
+  };
+
+  const openModal = (mode: ModalMode) => {
+    if (mode === null) return;
+
+    modalMode.value = mode;
+    window.addEventListener('keydown', closeModalEscape);
+  };
+
+
+  const closeModal = () => {
+    if (isOpen.value === null) return;
+
+    modalMode.value = null;
+    window.removeEventListener('keydown', closeModalEscape);
   };
   
-  const closeModal = () => {
-    isModalOpen.value = false;
-    todos.todo = {
-      id: Date.now(),
-      task: '',
-      status: 'incoming',
-      tag: '',
-      important: false,
-      done: false
-    };
-  };
+  onUnmounted(closeModal);
 
   return { 
-    isModalOpen,
     openModal,
     closeModal,
-    editModal
+    modalMode,
+    isOpen,
+    isAddMode,
+    isEditMode
   }
 });

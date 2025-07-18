@@ -43,5 +43,13 @@ const columnsData = computed(() => {
     column-gap: 54px;
     margin-block-start: 50px;
     padding: 0;
+    padding-inline: 5px;
+
+    @media (width < 768px) {
+      flex-direction: column;
+      row-gap: 80px;
+      align-items: center;
+
+    }
   }
 </style>

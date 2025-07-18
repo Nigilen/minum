@@ -21,18 +21,7 @@
     margin-block-end: 20px;
   }
 
-  &__add-btn {
-    text-align: center;
-    padding-block: 5px;
-    border-radius: 3px;
-    border: 1px solid var(--text-color-secondary);
-    opacity: 0.2;
-    transition-duration: .1s;
 
-    &:hover {
-      opacity: 1;
-    }
-  }
 }
 
 .item {

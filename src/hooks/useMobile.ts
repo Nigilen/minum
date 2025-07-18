@@ -1,5 +1,7 @@
 import { ref, onMounted, onUnmounted, type Ref } from 'vue';
 
+// NOTE: переделал немного хук useMobile
+
 const useMobile = (
   breakpoint: number = 768, 
   debounceDelay: number = 100
